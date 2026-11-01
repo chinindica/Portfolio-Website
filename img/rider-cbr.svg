@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 -200 1236 842" class="moto">
+  <defs>
+    <linearGradient id="suitG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8382c"/><stop offset="1" stop-color="#b81d15"/></linearGradient>
+    <linearGradient id="helmG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0453a"/><stop offset="1" stop-color="#b91c14"/></linearGradient>
+    <clipPath id="rearC"><circle cx="216" cy="472" r="178"/></clipPath>
+    <clipPath id="frontC"><circle cx="1050" cy="474" r="172"/></clipPath>
+  </defs>
+  <image href="img/cbr.webp" x="0" y="0" width="1236" height="642"/>
+  <!-- wheel motion: rotating sidewall marks -->
+  <g class="wmark" style="transform-origin:216px 472px"><circle cx="216" cy="472" r="150" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="5" stroke-dasharray="26 70"/></g>
+  <g class="wmark" style="transform-origin:1050px 474px"><circle cx="1050" cy="474" r="146" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="5" stroke-dasharray="26 70"/></g>
+  <g stroke-linecap="round" stroke-linejoin="round" fill="none" transform="translate(8 26)">
+    <!-- leg: hip, knee against the tank, boot on the peg -->
+    <path d="M440 168 L652 248 L486 416" stroke="#1a1414" stroke-width="74"/>
+    <path d="M440 168 L652 248 L486 416" stroke="url(#suitG)" stroke-width="60"/>
+    <path d="M470 150 L640 214" stroke="#f4c21b" stroke-width="7"/>
+    <path d="M610 280 L500 392" stroke="#f4c21b" stroke-width="6"/>
+    <path d="M450 428 L560 436" stroke="#1a1414" stroke-width="40"/>
+    <text x="500" y="230" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-style="italic" font-size="58" fill="#f4c21b" stroke="#1a1414" stroke-width="3" transform="rotate(20 500 230)">95</text>
+    <!-- torso tucked over the tank -->
+    <path d="M436 150 C500 80 610 46 720 44" stroke="#1a1414" stroke-width="118"/>
+    <path d="M436 150 C500 80 610 46 720 44" stroke="url(#suitG)" stroke-width="100"/>
+    <path d="M420 112 C486 44 590 6 708 0" stroke="#f4c21b" stroke-width="7"/>
+    <path d="M480 186 C540 124 626 96 730 92" stroke="#a5170f" stroke-width="10" opacity=".7"/>
+    <!-- arm to the clip-on -->
+    <path d="M716 40 L790 128 L866 118" stroke="#1a1414" stroke-width="54"/>
+    <path d="M716 40 L790 128 L866 118" stroke="url(#suitG)" stroke-width="40"/>
+    <path d="M730 28 L800 108" stroke="#f4c21b" stroke-width="6"/>
+    <circle cx="870" cy="118" r="26" fill="#1a1414" stroke="none"/>
+    <!-- helmet: red, smoked visor -->
+    <g stroke="none">
+      <path d="M716 -10 C700 -90 760 -140 830 -136 C900 -132 936 -86 930 -26 C926 18 886 40 840 38 L740 34 Z" fill="#1a1414"/>
+      <path d="M726 -14 C712 -86 766 -128 830 -124 C892 -120 922 -80 918 -28 C914 10 880 28 840 26 L748 24 Z" fill="url(#helmG)"/>
+      <path d="M836 -78 C876 -84 912 -66 922 -36 L916 -6 C884 -10 856 -14 836 -16 C826 -36 826 -60 836 -78 Z" fill="#1d262d"/>
+      <path d="M850 -66 C878 -70 900 -60 910 -44" stroke="#7a8e9c" stroke-width="5" fill="none"/>
+      <path d="M736 -40 C752 -96 800 -118 846 -112" stroke="#ffffff" stroke-width="6" fill="none" opacity=".35"/>
+    </g>
+  </g>
+  <!-- Vahanik Customs patch on the side -->
+  <g transform="translate(8 26)"><rect x="560" y="44" width="92" height="66" rx="6" fill="#f4f1ea" stroke="#1a1414" stroke-width="4" transform="rotate(-12 606 77)"/>
+  <image href="img/vlogo.jpg" x="572" y="48" width="68" height="58" transform="rotate(-12 606 77)"/></g>
+</svg>
