@@ -1,5 +1,4 @@
-<!doctype html>
-<html lang="en">
+<!doctype html><html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chinmay Khamkar Portfolio</title>
@@ -265,6 +264,21 @@ a{color:inherit}
 @media (prefers-reduced-motion:reduce){
   .card img,.card .img::after{transition:none}
 }
+
+/* phone + portrait tablet: names stack around the face, intro sits under them */
+@media (max-width:759px), (max-width:1100px) and (orientation:portrait){
+  .stage .intro{left:var(--gx);right:var(--gr);bottom:calc(18px + env(safe-area-inset-bottom,0px));max-width:none;font-size:14px;line-height:1.5;padding:14px 16px;gap:12px;
+    grid-template-columns:auto 1fr;align-items:center;background:linear-gradient(180deg,rgba(14,15,13,.72),rgba(14,15,13,.94));border-left:2px solid var(--race)}
+  .stage .intro > span{grid-column:1/-1;display:block;color:#d6d3c8}
+  .stage .intro .cta-m{display:inline-flex !important;grid-row:2;grid-column:1;padding:10px 14px;white-space:nowrap}
+  .stage .intro .state{grid-row:2;grid-column:2;justify-self:end;font-size:10px;letter-spacing:.12em;white-space:nowrap}
+  .stage .intro .meter{width:44px}
+  .stage .cta{display:none}
+  .tag.r{display:none}
+}
+@media (min-width:600px) and (max-width:1100px) and (orientation:portrait){
+  .stage .intro{left:auto;width:min(560px,calc(100% - var(--gx) - var(--gr)));font-size:15px}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 
@@ -395,7 +409,6 @@ a{color:inherit}
   <div class="in agrid">
     <div class="aside">
       <div class="strip" id="strip" aria-label="Photos of Chinmay"><div class="strip-row" id="stripRow"></div></div>
-      <button type="button" class="spause" id="spause" aria-pressed="false">Pause photos</button>
       <dl class="facts">
         <div><dt>Studying</dt><dd>B.Des Product Design, MIT-WPU Pune</dd></div>
         <div><dt>Running</dt><dd>Vahanik Customs, founder &amp; lead fabricator</dd></div>
@@ -595,13 +608,11 @@ a{color:inherit}
   for (let rep=0; rep<2; rep++) PH.forEach(([src,cap])=>{ const f = document.createElement('figure'); if (rep) f.setAttribute('aria-hidden','true');
     f.innerHTML = `<img src="img/${src}" alt="${rep?'':cap}" loading="lazy"><figcaption>${cap}</figcaption>`; stripRow.appendChild(f); });
   let stripX = 0, stripPaused = false, stripLast = performance.now();
-  let stripHeld = false; strip.addEventListener('pointerenter', ()=>stripPaused = true); strip.addEventListener('pointerleave', ()=>stripPaused = stripHeld);
-  const spause = document.getElementById('spause'); spause.addEventListener('click', ()=>{ stripHeld = !stripHeld; stripPaused = stripHeld; spause.textContent = stripHeld ? 'Play photos' : 'Pause photos'; spause.setAttribute('aria-pressed', String(stripHeld)); });
-  if (reduce){ stripHeld = stripPaused = true; spause.textContent = 'Play photos'; spause.setAttribute('aria-pressed','true'); }
+  if (reduce) stripPaused = true;
   function stripFrame(now){
     const dt = Math.min(64, now - stripLast); stripLast = now;
     const half = stripRow.scrollWidth / 2;
-    if (!stripPaused && half > 0){ stripX += dt * 0.055; if (stripX >= half) stripX -= half; }
+    if (!stripPaused && half > 0){ stripX += dt * 0.085; if (stripX >= half) stripX -= half; }
     stripRow.style.transform = `translate3d(${(stripX - half).toFixed(2)}px,0,0)`;
   }
 
@@ -656,9 +667,7 @@ a{color:inherit}
     dpr = Math.min(devicePixelRatio||1, 1.5);
     W = Math.round(cv.clientWidth*dpr); H = Math.round(cv.clientHeight*dpr);
     cv.width = W; cv.height = H;
-    const mobile = cv.clientWidth < 760;
-    const h = H * (mobile ? .8 : .97); const w = h * 1520/1440;
-    R = { w, h, x: Math.round((mobile ? W*.5 : W*.47) - w/2), y: Math.round(H - h) };
+    layout();
     contours = makeContours(W, H, 'rgba(224,48,30,.30)','rgba(224,48,30,.13)');
     contoursHot = makeContours(W, H, 'rgba(255,150,40,.85)','rgba(255,106,31,.42)', '#3a120b');
     trail.width = Math.ceil(W*TS); trail.height = Math.ceil(H*TS); comp.width = W; comp.height = H;
@@ -815,6 +824,30 @@ a{color:inherit}
       if (have > max) el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize)*max/have)+'px';
       el.textContent = keep;
     });
+    layout(); prescale();
+  }
+  // stack the layout: CHINMAY above the head, the face, KHAMKAR under the chin
+  const HT = .045, CF = .62, stackedMQ = matchMedia('(max-width:759px), (max-width:1100px) and (orientation:portrait)');   // head top and chin as fractions of the photo height
+  function layout(){
+    const cw = cv.clientWidth, ch = cv.clientHeight, mobile = stackedMQ.matches;
+    if (!cw || !ch) return;
+    const sTop = stageEl.getBoundingClientRect().top;
+    const fileEl = document.getElementById('file'), fr = fileEl.getBoundingClientRect();
+    const top0 = fr.bottom - sTop + Math.max(10, ch*.015);
+    const intro = document.querySelector('.intro');
+    const cta = document.querySelector('.cta');
+    const bottom = mobile ? intro.getBoundingClientRect().top - sTop - 10 : cta.getBoundingClientRect().top - sTop - 12;
+    const A = bottom - top0;
+    const cap = (el, maxH)=>{ const h = el.offsetHeight; if (h > maxH){ el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize)*maxH/h)+'px'; } };
+    cap(w1, A*(mobile?.15:.2)); cap(w2, A*(mobile?.16:.22));
+    const h1 = w1.offsetHeight, h2 = w2.offsetHeight, gap = Math.max(4, A*.012);
+    const face = A - h1 - h2 - 2*gap;
+    const rh = Math.min(face/(CF-HT), cw*(mobile?1.35:2)*1440/1520), rw = rh*1520/1440;
+    let ry = top0 + h1 + gap - HT*rh;
+    if (ry + rh < bottom + 40) ry = bottom + 40 - rh;   // never show the photo's bottom edge
+    w1.style.top = top0+'px';
+    w2.style.top = (ry + CF*rh + gap)+'px'; w2.style.bottom = 'auto';
+    R = { w: rw*dpr, h: rh*dpr, x: Math.round(((mobile ? cw*.5 : cw*.47) - rw/2)*dpr), y: Math.round(ry*dpr) };
   }
   addEventListener('resize', ()=>{ size(); fitNames(); });
   size(); fitNames();
@@ -823,5 +856,3 @@ a{color:inherit}
   requestAnimationFrame(frame);
 })();
 </script>
-
-</html>
