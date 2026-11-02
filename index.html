@@ -852,7 +852,7 @@ a{color:inherit}
   addEventListener('resize', ()=>{ size(); fitNames(); });
   size(); fitNames();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNames);
-  Promise.all([load('img/civilian.webp?v=3'), load('img/suit.webp?v=3')]).then(([a,b])=>{ CIV=a; SUIT=b; prescale(); });
+  Promise.all([load('img/civilian.webp?v=4'), load('img/suit.webp?v=3')]).then(([a,b])=>{ CIV=a; SUIT=b; prescale(); });
   requestAnimationFrame(frame);
 })();
 </script>
