@@ -727,10 +727,10 @@ a{color:inherit}
     if (contours) drawField(contours, reduce?0:time, ctx);
     if (!CIV || !SUIT || !pre.civ.width) return 0;
     const w = ease(clamp((cur-WIPE[0])/(WIPE[1]-WIPE[0]),0,1));
-    const base = R.y + w*(R.h+40*dpr) - 20*dpr, amp = (w>0&&w<1) ? 9*dpr : 0;
+    const endY = Math.min(H, R.y + R.h) + 20*dpr, sy = (cv.getBoundingClientRect().top < 1 ? (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--navh'))||64) : 0)*dpr, base = sy + w*(endY - sy), amp = (w>0&&w<1) ? 9*dpr : 0;
     if (w<1) ctx.drawImage(pre.civ, R.x, R.y);
     if (w>0){
-      ctx.save(); ctx.beginPath(); ctx.moveTo(R.x,R.y-50); ctx.lineTo(R.x+R.w,R.y-50);
+      ctx.save(); ctx.beginPath(); ctx.moveTo(R.x,-50); ctx.lineTo(R.x+R.w,-50);
       for (let x=R.x+R.w; x>=R.x; x-=8*dpr) ctx.lineTo(x, edgeY(x, base, time, amp));
       ctx.closePath(); ctx.clip(); ctx.drawImage(pre.suit, R.x, R.y); ctx.restore();
     }
